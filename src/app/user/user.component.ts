@@ -1,17 +1,20 @@
 import { Component, computed, EventEmitter, Input, input, output, Output } from '@angular/core';
 
+interface User {
+  id: string;
+  name: string;
+  avatar: string;
+}
 
 @Component({
   imports: [],
   selector: 'app-user',
-  styleUrl: './user.css',
-  templateUrl: './user.html',
+  styleUrl: './user.component.css',
+  templateUrl: './user.component.html',
 })
-export class User {
+export class UserComponent {
   // decorator approach
-  @Input({ required: true }) id!: string;
-  @Input({ required: true }) avatar!: string;
-  @Input({ required: true }) name!: string;
+  @Input({ required: true }) user!: User;
   @Output() select = new EventEmitter<string>();
 
   // signal approach - more efficient
@@ -20,7 +23,7 @@ export class User {
   // select = output<string>();
 
   get imagePath() {
-    return 'users/' + this.avatar;
+    return 'users/' + this.user.avatar;
   }
 
   // signal approach - more efficient
@@ -29,7 +32,7 @@ export class User {
   // });
 
   onSelectUser() {
-    this.select.emit(this.id);
+    this.select.emit(this.user.id);
     // for signals - even though output is not really a signal - just an event emitter
     // this.select.emit(this.id);
   }
